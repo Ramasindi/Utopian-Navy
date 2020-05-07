@@ -1,0 +1,15 @@
+# depslib dependency file v1.0
+1588864335 source:c:\users\thalukanyo\documents\utopian navy\subspacelib.cpp
+	"SubSpaceLib.h"
+
+1588864199 c:\users\thalukanyo\documents\utopian navy\subspacelib.h
+	<iostream>
+	<sstream>
+	<cstdlib>
+	<ctime>
+	<cassert>
+
+1588864101 source:c:\users\thalukanyo\documents\utopian navy\main.cpp
+	<iostream>
+	"SubSpaceLib.h"
+
