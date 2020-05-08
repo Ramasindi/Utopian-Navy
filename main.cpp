@@ -6,7 +6,7 @@ using namespace SubSpace;
 
 int main(int argc,char* argv[])
 {
-    srand(time(nullptr));
+    srand(time(0));
 
     int intROWS = 0;
     int intCOLS = 0;
@@ -25,20 +25,21 @@ int main(int argc,char* argv[])
         }
         intDEFENCES = ConvertToInt(argv[3]);
 
-        cout << "************************************************************** \n";
-        cout << "****************WELCOME TO THE UTOPIAN NAVY!****************** \n";
-        cout << "************************************************************** \n";
-
-
     SeaWorld recNavy = InitSeaWorld(intROWS,intCOLS,intDEFENCES);
 
     bool blnContinue = true;
     do
     {
+
         system("cls");
+        cout << "************************************************************** \n";
+        cout << "****************WELCOME TO THE UTOPIAN NAVY!****************** \n";
+        cout << "************************************************************** \n";
         displaySeaWorld(recNavy);
 
-        cout << " PLAYER(P)--LAUCH POSITION(X)--BOUY(O)--SEA MINE(U)" << endl
+        cout << "                                                                     ... " << endl;
+        cout << " PLAYER(P)--LAUCH POSITION(X)--BOUY(O)--SEA_MINE(U)--DETECTION_RANGE(.O.)" << endl
+             << "                                                                     ... " << endl
              << " W)-Move UP" << endl
              << " S)-Move DOWN" << endl
              << " A)-Move LEFT" << endl
@@ -74,7 +75,8 @@ int main(int argc,char* argv[])
             cerr << "Wrong input!!!" << endl;
             break;
         }
-        ///End-game test.
+
+
         if(recNavy.Test == "WON"){
             cout << "************************************************************** \n";
             cout << "*********************CONGRATS YOU WON!!!********************** \n";
@@ -87,6 +89,7 @@ int main(int argc,char* argv[])
             cout << "*******************YOU HAVE BEEN DETECTED********************* \n";
             cout << "************************GAMEOVER!!**************************** \n";
             cout << "************************************************************** \n";
+
             blnContinue = false;
         }
     }while(blnContinue);

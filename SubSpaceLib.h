@@ -5,6 +5,7 @@
 #include <sstream>
 #include <cstdlib>
 #include <ctime>
+#define NDEBUG
 #include <cassert>
 using namespace std;
 namespace SubSpace
@@ -92,11 +93,6 @@ namespace SubSpace
     /** Moving Player*/
     void movePlayer(SeaWorld& recSeaworld, char chOption);
 
-    /** Check GAme status*/
-    bool isEndOfGame(SeaWorld recSeaworld);
-
-    /** Check Square Radius*/
-    bool InSquareRad(SeaWorld recNavy,int intRandR,int intRandC);
 
 }
 #endif // SUBSPACELIB_H_INCLUDED

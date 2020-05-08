@@ -34,35 +34,28 @@ namespace SubSpace
 		if(intCol >= recSeaworld.intCols)
 			return false;
 		return true;
+
+        return true;
 	}
-	/** Check Square Radius*/
-	bool InSquareRad(SeaWorld recNavy,int intRandR,int intRandC)
-	{
-	      if(recNavy.Navy[intRandR + 1][intRandC].blnBouy  || recNavy.Navy[intRandR-1][intRandC].blnBouy
-            || recNavy.Navy[intRandR][intRandC -1].blnBouy|| recNavy.Navy[intRandR +1][intRandC +1].blnBouy  || recNavy.Navy[intRandR -1][intRandC -1].blnBouy
-            || recNavy.Navy[intRandR +1][intRandC -1].blnBouy  || recNavy.Navy[intRandR-1][intRandC +1].blnBouy)
-            {
-                        /// Place the food item.
-                        recNavy.Navy[intRandR][intRandC].blnBouy = true;
-            }
-            return true;
-	}
+
     /** Placing Characters*/
-    void placeCharacter(SeaWorld recNavy, SymbolValues symbols, int intNumSymbols)
+    void placeCharacter(SeaWorld& recNavy, SymbolValues symbols, int intNumSymbols)
 	{
+
 		int intSymbolDeployed = 1 ;
 		while(intSymbolDeployed < (intNumSymbols))
 		{
-			int intRandR = generateRandom(1, recNavy.intRows - 1);
-			int intRandC = generateRandom(1, recNavy.intCols - 1);
+			int intRandR = generateRandom(0, recNavy.intRows - 1);
+			int intRandC = generateRandom(0, recNavy.intCols - 1);
 			intSymbolDeployed++;
+
 			if(symbols == BOUY )
 			{
 				/// We are placing Bouys
 				if(!recNavy.Navy[intRandR][intRandC].blnBouy)
 				{
-                        /// Place the food item.
                         recNavy.Navy[intRandR][intRandC].blnBouy = true;
+
                         intSymbolDeployed++;
                 }
 			}
@@ -72,36 +65,22 @@ namespace SubSpace
 				if(!recNavy.Navy[intRandR][intRandC].blnSeaMine)
 				{
 					recNavy.Navy[intRandR][intRandC].blnSeaMine = true;
+
 					intSymbolDeployed++;
 				}
 			}
 		}
 	}
 	/** Placing a Player*/
-    void placePlayer(SeaWorld& recNavy)
+    void placePlayer(SeaWorld recNavy)
 	{
-	    bool IsOutRad;
 		int intRandR = generateRandom(0, recNavy.intRows - 1);
 		int intRandC = generateRandom(0, recNavy.intCols - 1);
-		while(IsOutRad)
-        {
-            intRandR = generateRandom(0, recNavy.intRows - 1);
-            intRandC = generateRandom(0, recNavy.intCols - 1);
-            if(recNavy.Navy[intRandR][intRandC].blnLauch || recNavy.Navy[intRandR][intRandC].blnBouy  || recNavy.Navy[intRandR + 1][intRandC].blnBouy  || recNavy.Navy[intRandR-1][intRandC].blnBouy
-            || recNavy.Navy[intRandR][intRandC -1].blnBouy|| recNavy.Navy[intRandR +1][intRandC +1].blnBouy  || recNavy.Navy[intRandR -1][intRandC -1].blnBouy
-            || recNavy.Navy[intRandR +1][intRandC -1].blnBouy  || recNavy.Navy[intRandR-1][intRandC +1].blnBouy)
-            {
-                IsOutRad = false;
-            }
-        }
 		while(recNavy.Navy[intRandR][intRandC].blnBouy)
 		{
 			recNavy.intPLRow = generateRandom(0, recNavy.intRows - 1);
 			recNavy.intPLCol = generateRandom(0, recNavy.intCols - 1);
 		}
-		/// Simply recording the location of the player.
-		/// Not necessarily placing the player in any of the worlds.
-
 		recNavy.intPLRow = intRandR;
 		recNavy.intPLCol = intRandC;
 	}
@@ -127,6 +106,7 @@ namespace SubSpace
         recNavy.intCols = intCols;
         recNavy.intDefences = intDefences;
         recNavy.blnInSurface = true;
+
         recNavy.Navy = new recGameCell*[intRows];
         for(int r =0;r < intRows;r++)
         {
@@ -138,18 +118,14 @@ namespace SubSpace
                 recNavy.Navy[r][c].blnLauch = false;
             }
         }
-        //recNavy.Test = "NOT YET";
+
         placeCharacter(recNavy, BOUY, intDefences);
 		placeCharacter(recNavy, SEA_MINE, intDefences);
 		placeLauchPosition(recNavy);
 		placePlayer(recNavy);
         return recNavy;
     }
-    /** Check GAme status*/
-    bool isEndOfGame(SeaWorld recSeaworld)
-	{
-           return true;
-	}
+
 	 /** Display World*/
     void displaySeaWorld(SeaWorld recSeaworld)
     {
@@ -158,6 +134,7 @@ namespace SubSpace
             for(int c =0;c < recSeaworld.intCols;c++)
             {
 				if(recSeaworld.intPLRow == r && recSeaworld.intPLCol == c)
+
                     cout << ARR_SYMBOLS[PLAYER] << ' ';
 
                 else if(recSeaworld.intLaPRow == r && recSeaworld.intLaPCol == c)
@@ -182,6 +159,7 @@ namespace SubSpace
             cout << endl;
         }
     }
+
     /** Move The Submarine*/
     void movePlayer(SeaWorld& recSeaworld, char chOption)
 	{
@@ -210,23 +188,23 @@ namespace SubSpace
 				intCol++;
 				break;
 		}
+
 		/// First validate intDRow and intDCol...
 		if(isInNavyArea(recSeaworld, intRow, intCol))
 		{
-			/// Check if the player is in the same cell as a food/coin item.
-			if(recSeaworld.blnInSurface)//== intRow && recSeaworld.intLaPCol == intCol)
+			if(recSeaworld.blnInSurface)
 			{
-                if(recSeaworld.Navy[intRow + 1][intCol].blnBouy || recSeaworld.Navy[intRow -1][intCol].blnBouy
-                   || recSeaworld.Navy[intRow][intCol -1].blnBouy || recSeaworld.Navy[intRow][intCol +1].blnBouy
-                   || recSeaworld.Navy[intRow +1][intCol +1].blnBouy || recSeaworld.Navy[intRow -1][intCol -1].blnBouy
-                   || recSeaworld.Navy[intRow +1][intCol -1].blnBouy || recSeaworld.Navy[intRow -1][intCol +1].blnBouy)
+
+                if((recSeaworld.Navy[intRow -1][intCol +1].blnBouy == 1) || (recSeaworld.Navy[intRow + 1][intCol].blnBouy == 1)
+                   || (recSeaworld.Navy[intRow -1][intCol].blnBouy == 1) || (recSeaworld.Navy[intRow][intCol -1].blnBouy == 1)
+                   || (recSeaworld.Navy[intRow][intCol +1].blnBouy == 1) || (recSeaworld.Navy[intRow +1][intCol +1].blnBouy == 1)
+                   || (recSeaworld.Navy[intRow -1][intCol -1].blnBouy == 1) || (recSeaworld.Navy[intRow +1][intCol -1].blnBouy == 1))
                 {
-                    recSeaworld.Test = "DETECTED";
+
+                     recSeaworld.Test = "DETECTED";
+
 				}
-			    if(recSeaworld.Navy[intRow][intCol].blnBouy)//== intRow && recSeaworld.intLaPCol == intCol)
-                {
-                    recSeaworld.Test = "YOU HIT";
-				}
+
 				if(recSeaworld.intLaPRow == intRow && recSeaworld.intLaPCol == intCol)
                 {
                     recSeaworld.Test = "WON";
@@ -234,10 +212,10 @@ namespace SubSpace
 			}
 			else
 			{
-			    if(recSeaworld.Navy[intRow + 1][intCol].blnSeaMine || recSeaworld.Navy[intRow -1][intCol].blnSeaMine
-                   || recSeaworld.Navy[intRow][intCol -1].blnSeaMine|| recSeaworld.Navy[intRow][intCol +1].blnSeaMine
-                   || recSeaworld.Navy[intRow +1][intCol +1].blnSeaMine || recSeaworld.Navy[intRow -1][intCol -1].blnSeaMine
-                   || recSeaworld.Navy[intRow +1][intCol -1].blnSeaMine || recSeaworld.Navy[intRow -1][intCol +1].blnSeaMine)
+			   if((recSeaworld.Navy[intRow -1][intCol +1].blnSeaMine == 1) || (recSeaworld.Navy[intRow + 1][intCol].blnSeaMine == 1)
+                   || (recSeaworld.Navy[intRow -1][intCol].blnSeaMine == 1) || (recSeaworld.Navy[intRow][intCol -1].blnSeaMine == 1)
+                   || (recSeaworld.Navy[intRow][intCol +1].blnSeaMine == 1) || (recSeaworld.Navy[intRow +1][intCol +1].blnSeaMine == 1)
+                   || (recSeaworld.Navy[intRow -1][intCol -1].blnSeaMine == 1) || (recSeaworld.Navy[intRow +1][intCol -1].blnSeaMine == 1))
                 {
                     recSeaworld.Test = "DETECTED";
 				}
@@ -258,6 +236,7 @@ namespace SubSpace
 		for(int r = 0; r < recSeaworld.intRows; r++)
 		{
 			delete [] recSeaworld.Navy[r];
+
 		}
 		delete [] recSeaworld.Navy;
 		recSeaworld.Navy = nullptr;
